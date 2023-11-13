@@ -10,16 +10,29 @@ const commands = [
     name: 'ping',
     description: 'Replies with Pong',
   },
-  
  {
     name: 'add',
-    description: 'Add numbers',
+    description: 'Add numbers - this is made for understanding purpose and may not work as you wish',
     options: [
         {
             name: 'first-number',
             description: 'First argument',
             type: ApplicationCommandOptionType.Number,
             required: true,
+            choices: [
+              {
+                name: 'One',
+                value: 1,
+              },
+              {
+                name: 'Seven',
+                value: 7,
+              },
+              {
+                name: 'Thirteen',
+                value: 13,
+              },
+            ]
         },
         {
             name: 'second-number',
@@ -28,6 +41,10 @@ const commands = [
             required: true,
         }
     ]
+ },
+ {
+  name: 'askaris_memories',
+  description: `Sends an embed about Askari's Memories Server`,
  }
 ];
 
