@@ -50,7 +50,7 @@ client.on("interactionCreate", (interaction) => {
 
   if (interaction.commandName === 'askaris_memories') {
     const guild = interaction.guild;
-    const embed = new EmbedBuilder()
+    const askaris_memories_embed = new EmbedBuilder()
       .setTitle(`Askari's Memories`)
       .setDescription(
         "A safe place to store memories with my friends, their birthdays, talk to them, listen to music and watch movies with them ❤️"
@@ -72,7 +72,7 @@ client.on("interactionCreate", (interaction) => {
           inline: true,
         },
         {
-          name: `Checlout Askari's Github`,
+          name: `Checkout Askari's Github`,
           value: `https://github.com/Askari64`,
           inline: true,
         }
@@ -80,8 +80,51 @@ client.on("interactionCreate", (interaction) => {
       .setAuthor({ name: "Askari", iconURL: guild.iconURL() })
       .setFooter({ text: `Askari's Memories`, iconURL: guild.iconURL() })
       .setTimestamp();
-    interaction.reply({ embeds: [embed] });
+    interaction.reply({ embeds: [askaris_memories_embed] });
   }
 });
+
+// Message create - embed reply
+
+client.on('messageCreate', (message) => {
+  if(message.author.bot) {
+    return;
+  }
+
+  if(message.content === `Askari's server`) {
+    const guild = message.guild;
+    const askaris_memories_embed = new EmbedBuilder()
+      .setTitle(`Askari's Memories`)
+      .setDescription(
+        "A safe place to store memories with my friends, their birthdays, talk to them, listen to music and watch movies with them ❤️"
+      )
+      .setColor(15277667)
+      .setThumbnail(guild.iconURL())
+      .setImage(guild.iconURL())
+      .addFields(
+        {
+          name: `Our Server Manager`,
+          value: `Anubis is our Official Server Manager Bot - Under Development`,
+        },
+        { name: "\u200B", value: "\u200B" }
+      )
+      .addFields(
+        {
+          name: `Checkout Askari's Website`,
+          value: `https://askari-site.vercel.app/`,
+          inline: true,
+        },
+        {
+          name: `Checkout Askari's Github`,
+          value: `https://github.com/Askari64`,
+          inline: true,
+        }
+      )
+      .setAuthor({ name: "Askari", iconURL: guild.iconURL() })
+      .setFooter({ text: `Askari's Memories`, iconURL: guild.iconURL() })
+      .setTimestamp();
+    message.channel.send({embeds: [askaris_memories_embed]})
+  }
+})
 
 client.login(process.env.DISCORD_TOKEN);
