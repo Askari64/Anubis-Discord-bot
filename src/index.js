@@ -48,7 +48,7 @@ client.on("interactionCreate", (interaction) => {
 
   // Embed
 
-  if (interaction.commandName === 'askaris_memories') {
+  if (interaction.commandName === "askaris_memories") {
     const guild = interaction.guild;
     const askaris_memories_embed = new EmbedBuilder()
       .setTitle(`Askari's Memories`)
@@ -82,16 +82,70 @@ client.on("interactionCreate", (interaction) => {
       .setTimestamp();
     interaction.reply({ embeds: [askaris_memories_embed] });
   }
+
+  //Serverinfo embed
+
+  if (interaction.commandName === "serverinfo") {
+    const guild = interaction.guild;
+
+    // Define an async function to use await
+    const fetchData = async () => {
+        // Fetch all members to ensure the collection is complete
+        await guild.members.fetch();
+
+        const humans = guild.members.cache.filter((member) => !member.user.bot);
+        const bots = guild.members.cache.filter((member) => member.user.bot);
+        const textChannels = guild.channels.cache.filter((channel) => channel.isTextBased());
+        const nsfwChannel = textChannels.filter((channel) => channel.nsfw);
+        const voiceChannels = guild.channels.cache.filter((channel) => channel.isVoiceBased());
+
+        console.log(humans);
+        console.log(bots);
+
+        const serverinfoembed = new EmbedBuilder()
+            .setTitle(`Info for ${guild.name}`)
+            .setThumbnail(guild.iconURL())
+            .addFields(
+                {
+                    name: "Owner",
+                    value: `<@${guild.ownerId}>`,
+                    inline: true,
+                },
+                {
+                    name: "Members",
+                    value: `Total Members: ${guild.memberCount} \n Humans: ${humans.size} \n Bots: ${bots.size}`,
+                    inline: true,
+                },
+                { name: "\u200B", value: "\u200B" },
+                {
+                    name: "Verification Level",
+                    value: `${guild.verificationLevel}`,
+                    inline: true,
+                },
+                {
+                    name: 'Channels',
+                    value: `#️⃣ ${textChannels.size} 🔞${nsfwChannel.size} \n 🔊 ${voiceChannels.size}`,
+                    inline: true,
+                }
+            );
+
+        interaction.reply({ embeds: [serverinfoembed] });
+    };
+
+    // Call the async function
+    fetchData();
+}
+
 });
 
 // Message create - embed reply
 
-client.on('messageCreate', (message) => {
-  if(message.author.bot) {
+client.on("messageCreate", (message) => {
+  if (message.author.bot) {
     return;
   }
 
-  if(message.content === `Askari's server`) {
+  if (message.content === `Askari's server`) {
     const guild = message.guild;
     const askaris_memories_embed = new EmbedBuilder()
       .setTitle(`Askari's Memories`)
@@ -123,8 +177,8 @@ client.on('messageCreate', (message) => {
       .setAuthor({ name: "Askari", iconURL: guild.iconURL() })
       .setFooter({ text: `Askari's Memories`, iconURL: guild.iconURL() })
       .setTimestamp();
-    message.channel.send({embeds: [askaris_memories_embed]})
+    message.channel.send({ embeds: [askaris_memories_embed] });
   }
-})
+});
 
 client.login(process.env.DISCORD_TOKEN);
