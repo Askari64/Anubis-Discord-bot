@@ -90,52 +90,58 @@ client.on("interactionCreate", (interaction) => {
 
     // Define an async function to use await
     const fetchData = async () => {
-        // Fetch all members to ensure the collection is complete
-        await guild.members.fetch();
+      // Fetch all members to ensure the collection is complete
+      await guild.members.fetch();
 
-        const humans = guild.members.cache.filter((member) => !member.user.bot);
-        const bots = guild.members.cache.filter((member) => member.user.bot);
-        const textChannels = guild.channels.cache.filter((channel) => channel.isTextBased());
-        const nsfwChannel = textChannels.filter((channel) => channel.nsfw);
-        const voiceChannels = guild.channels.cache.filter((channel) => channel.isVoiceBased());
+      const humans = guild.members.cache.filter((member) => !member.user.bot);
+      const bots = guild.members.cache.filter((member) => member.user.bot);
+      const textChannels = guild.channels.cache.filter((channel) =>
+        channel.isTextBased()
+      );
+      const nsfwChannel = textChannels.filter((channel) => channel.nsfw);
+      const voiceChannels = guild.channels.cache.filter((channel) =>
+        channel.isVoiceBased()
+      );
+      const roles = guild.roles.cache;
 
-        console.log(humans);
-        console.log(bots);
+      const serverinfoembed = new EmbedBuilder()
+        .setTitle(`Info for ${guild.name}`)
+        .setThumbnail(guild.iconURL())
+        .addFields(
+          {
+            name: "Owner",
+            value: `<@${guild.ownerId}>`,
+            inline: true,
+          },
+          {
+            name: "Members",
+            value: `Total Members: ${guild.memberCount} \n Humans: ${humans.size} \n Bots: ${bots.size}`,
+            inline: true,
+          },
+          { name: "\u200B", value: "\u200B" },
+          {
+            name: "Verification Level",
+            value: `${guild.verificationLevel}`,
+            inline: true,
+          },
+          {
+            name: "Channels",
+            value: `#️⃣ ${textChannels.size} 🔞${nsfwChannel.size} \n 🔊 ${voiceChannels.size}`,
+            inline: true,
+          },
+          {
+            name: "Roles",
+            value: `${roles.size}`,
+          }
+        )
+        .setFooter({ text: `ID ${guild.id} Created at ${guild.createdAt}` });
 
-        const serverinfoembed = new EmbedBuilder()
-            .setTitle(`Info for ${guild.name}`)
-            .setThumbnail(guild.iconURL())
-            .addFields(
-                {
-                    name: "Owner",
-                    value: `<@${guild.ownerId}>`,
-                    inline: true,
-                },
-                {
-                    name: "Members",
-                    value: `Total Members: ${guild.memberCount} \n Humans: ${humans.size} \n Bots: ${bots.size}`,
-                    inline: true,
-                },
-                { name: "\u200B", value: "\u200B" },
-                {
-                    name: "Verification Level",
-                    value: `${guild.verificationLevel}`,
-                    inline: true,
-                },
-                {
-                    name: 'Channels',
-                    value: `#️⃣ ${textChannels.size} 🔞${nsfwChannel.size} \n 🔊 ${voiceChannels.size}`,
-                    inline: true,
-                }
-            );
-
-        interaction.reply({ embeds: [serverinfoembed] });
+      interaction.reply({ embeds: [serverinfoembed] });
     };
 
     // Call the async function
     fetchData();
-}
-
+  }
 });
 
 // Message create - embed reply
