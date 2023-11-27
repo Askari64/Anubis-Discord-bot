@@ -1,4 +1,10 @@
-const { Client, IntentsBitField, EmbedBuilder } = require("discord.js");
+const {
+  Client,
+  IntentsBitField,
+  EmbedBuilder,
+  time,
+  TimestampStyles,
+} = require("discord.js");
 const dotenv = require("dotenv");
 dotenv.config();
 const client = new Client({
@@ -21,7 +27,7 @@ client.on("messageCreate", (message) => {
     return;
   }
   if (message.content === "hello" || message.content === "Hello") {
-    message.reply(`Hello ${message.author.username} cutie 😘`);
+    message.reply(`Hello ${message.author.username}`);
   }
 });
 
@@ -134,13 +140,47 @@ client.on("interactionCreate", (interaction) => {
             value: `${roles.size}`,
           }
         )
-        .setFooter({ text: `ID ${guild.id} Created at ${guild.createdAt}` });
+        .setFooter({ text: `ID ${guild.id} Created at ${guild.createdAt}` })
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL() });
 
       interaction.reply({ embeds: [serverinfoembed] });
     };
 
     // Call the async function
     fetchData();
+  }
+
+  //userinfo Embed
+
+  if (interaction.commandName === "userinfo") {
+    const targetUser = interaction.options.get("target") || interaction;
+
+
+    const userInfoEmbed = new EmbedBuilder()
+      .setAuthor({
+        name: targetUser.user.globalName,
+        iconURL: targetUser.user.avatarURL(),
+      })
+      .setTitle("Avatar")
+      .setURL(targetUser.user.avatarURL())
+      .setFields(
+        {
+          name: `**Created At**`,
+          value: `${targetUser.user.createdAt}`,
+          inline: false,
+        },
+        {
+          name: "**Bot**",
+          value: `${targetUser.user.bot}`,
+          inline: false,
+        },
+        { name: "Joined at", value: `${targetUser.member.joinedAt}`, inline: false }
+      )
+      .setFooter({
+        text: `id: ${targetUser.user.id}`,
+      });
+
+    interaction.reply({ embeds: [userInfoEmbed] });
   }
 });
 
@@ -188,3 +228,5 @@ client.on("messageCreate", (message) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
+//joined at ${time(targetUser.member.guild.joinedTimestamp , 'D')}
