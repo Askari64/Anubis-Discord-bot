@@ -227,6 +227,55 @@ client.on("messageCreate", (message) => {
   }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+// Message Create - Granny
+client.on("messageCreate", (message) => {
+  if(message.author.bot) {
+    return;
+  }
 
-//joined at ${time(targetUser.member.guild.joinedTimestamp , 'D')}
+  if (message.content.toLowerCase() === 'granny') {
+    message.channel.send(`Grandma periodically holds a timed event at the Ancestor’s table of Belonging in the elevated clearing of Hidden Forest, providing up to a certain amount of Light per day and a delicious meal to Sky children.
+
+__Event times__ : (These timestamps are in your local time!)
+> <t:1699259400:t> 》 <t:1699180200:t> 》<t:1699187400:t> 》<t:1699194600:t> 》<t:1699201800:t> 》 <t:1699209000:t>》<t:1699216200:t> 》<t:1699223400:t> 》<t:1699230600:t> 》<t:1699237800:t> 》<t:1699245000:t> 》<t:1699252200:t>`);
+  }
+});
+
+//Message Create - Turtle
+client.on("messageCreate", (message) => {
+  if(message.author.bot) {
+    return;
+  }
+
+  if(message.content.toLowerCase() === 'turtle') {
+    message.channel.send(`A resident Light creature emerges periodically from the deep waters of Sanctuary Islands to seek help from Sky children, rewarding them with Light up to a certain amount each day. :turtle:
+
+    :sunny: __Event times__: (These timestamps are in your local time!)
+    > <t:1699260648:t> 》 <t:1699181400:t> 》<t:1699188600:t> 》<t:1699195800:t> 》<t:1699203000:t> 》 <t:1699210200:t>》<t:1699217400:t> 》<t:1699224600:t> 》<t:1699231800:t>》<t:1699239000:t> 》<t:1699246200:t> 》<t:1699253400:t>`)
+  }
+});
+
+//Message Create - Geyser
+client.on("messageCreate", (message)=> {
+  if(message.author.bot) {
+    return;
+  }
+
+  if(message.content.toLowerCase() === 'geyser') {
+    message.channel.send(`A polluted geyser in Sanctuary Islands releases darkness periodically throughout the day, that can be burned away to collect Light up to a certain amount each day. :fountain:
+
+    :candle:  __Event times__ : (These timestamps are in your local time!) 
+    > <t:1699257609:t> 》 <t:1699178400:t>》<t:1699185600:t> 》<t:1699192800:t> 》<t:1699200000:t> 》 <t:1699207200:t>》<t:1699214400:t> 》<t:1699221600:t> 》<t:1699228800:t> 》<t:1699236000:t> 》<t:1699243200:t> 》<t:1699250400:t>`)
+  }
+}); 
+
+client.on("messageCreate", (message)=> {
+if(message.author.bot) {
+  return;
+}
+if(message.content.toLowerCase() === 'test'){
+  console.log(process.env.DISCORD_TOKEN)
+}
+})
+
+client.login(process.env.DISCORD_TOKEN);
